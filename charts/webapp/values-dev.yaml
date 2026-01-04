@@ -1,0 +1,4 @@
+replicaCount: 1
+ingress:
+  enabled: true
+  host: webapp.dev.example.internal
