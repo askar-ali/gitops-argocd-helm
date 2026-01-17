@@ -1,0 +1,12 @@
+name: lint
+on: [push, pull_request]
+jobs:
+  chart:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: azure/setup-helm@v4
+      - run: helm lint charts/webapp -f charts/webapp/values-prod.yaml
+      - run: |
+          curl -sL https://github.com/yannh/kubeconform/releases/download/v0.6.7/kubeconform-linux-amd64.tar.gz | tar xz
+          for e in dev prod; do helm template w charts/webapp -f charts/webapp/values-$e.yaml | ./kubeconform -strict -summary; done
