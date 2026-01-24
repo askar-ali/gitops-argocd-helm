@@ -36,3 +36,21 @@ securityContext:
   readOnlyRootFilesystem: true
   capabilities:
     drop: ["ALL"]
+
+pdb:
+  maxUnavailable: 1
+
+networkPolicy:
+  enabled: false
+  ingressNamespace: ingress-nginx
+
+# Spread replicas across nodes. Labels must match the selector labels.
+topologySpreadConstraints: []
+
+# Plain (non-secret) environment variables.
+env: {}
+
+metrics:
+  path: /metrics
+  serviceMonitor:
+    enabled: false   # requires the Prometheus Operator CRDs

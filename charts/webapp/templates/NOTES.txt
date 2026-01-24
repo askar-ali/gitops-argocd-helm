@@ -1,0 +1,6 @@
+{{ include "webapp.name" . }} deployed.
+{{- if .Values.ingress.enabled }}
+URL: http://{{ .Values.ingress.host }}
+{{- else }}
+Port-forward: kubectl port-forward svc/{{ include "webapp.name" . }} 8080:{{ .Values.service.port }}
+{{- end }}
