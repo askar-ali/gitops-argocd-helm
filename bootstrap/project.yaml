@@ -1,0 +1,21 @@
+# Restrict what Applications in this project may deploy and where.
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: webapps
+  namespace: argocd
+spec:
+  description: Application workloads
+  sourceRepos:
+    - https://github.com/example/gitops-argocd-helm.git
+  destinations:
+    - namespace: "webapp-*"
+      server: https://kubernetes.default.svc
+  clusterResourceWhitelist:
+    - group: ""
+      kind: Namespace
+  namespaceResourceBlacklist:
+    - group: ""
+      kind: ResourceQuota
+    - group: ""
+      kind: LimitRange

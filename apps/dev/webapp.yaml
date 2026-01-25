@@ -5,7 +5,7 @@ metadata:
   namespace: argocd
   finalizers: [resources-finalizer.argocd.argoproj.io]
 spec:
-  project: default
+  project: webapps
   source:
     repoURL: https://github.com/example/gitops-argocd-helm.git   # REPO_URL
     targetRevision: main
