@@ -1,0 +1,29 @@
+# Alternative to one Application per environment: generate them from a list.
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: webapp
+  namespace: argocd
+spec:
+  generators:
+    - list:
+        elements:
+          - env: dev
+          - env: prod
+  template:
+    metadata:
+      name: "webapp-{{env}}"
+    spec:
+      project: webapps
+      source:
+        repoURL: https://github.com/example/gitops-argocd-helm.git
+        targetRevision: main
+        path: charts/webapp
+        helm:
+          valueFiles: ["values-{{env}}.yaml"]
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: "webapp-{{env}}"
+      syncPolicy:
+        automated: { selfHeal: true }
+        syncOptions: [CreateNamespace=true]
