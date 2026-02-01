@@ -1,0 +1,9 @@
+name: yaml-json
+on: [push, pull_request]
+jobs:
+  syntax:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -c "import json;json.load(open('charts/webapp/values.schema.json'))"
+      - run: pip install pyyaml && python3 -c "import yaml,glob;[list(yaml.safe_load_all(open(f))) for f in glob.glob('apps/**/*.yaml',recursive=True)+glob.glob('bootstrap/*.yaml')]"
