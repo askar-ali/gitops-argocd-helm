@@ -23,6 +23,11 @@ charts/webapp/   Helm chart (values-dev / values-prod overrides)
 docs/            design notes
 ```
 
+## Chart features
+
+ServiceAccount (no token), PodDisruptionBudget, optional NetworkPolicy, ConfigMap env
+with checksum rollouts, topology spread, HPA, ServiceMonitor, values schema.
+
 ## Flow
 
 ```
@@ -36,3 +41,11 @@ git push -> root app (bootstrap/root-app.yaml) -> apps/<env>/*.yaml -> charts/we
 # edit REPO_URL in apps/ and bootstrap/root-app.yaml, push, then:
 kubectl apply -f bootstrap/root-app.yaml
 ```
+
+## Safety defaults
+
+- Restricted `AppProject` (repo, namespaces, resource kinds)
+- Read-only default RBAC with a scoped deployer role
+- Prod does not auto-prune; `latest` tags rejected by schema
+
+See `docs/design.md` and `docs/promotion-and-rollback.md`.
